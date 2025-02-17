@@ -1,0 +1,12 @@
+name              'proj-cinc'
+maintainer        'Oregon State University'
+maintainer_email  'chef@osuosl.org'
+license           'Apache-2.0'
+description       'Installs/Configures proj-cinc'
+issues_url        'https://github.com/osuosl-cookbooks/proj-cinc/issues'
+source_url        'https://github.com/osuosl-cookbooks/proj-cinc'
+chef_version      '>= 18.0'
+version           '0.1.0'
+
+supports          'almalinux', '~> 8.0'
+supports          'almalinux', '~> 9.0'
