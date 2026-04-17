@@ -20,6 +20,7 @@ describe 'proj-cinc::rubygems' do
       end
 
       it { is_expected.to include_recipe('osl-docker') }
+      it { is_expected.to include_recipe('osl-firewall') }
       it { is_expected.to include_recipe('osl-git') }
 
       it do
@@ -66,6 +67,14 @@ describe 'proj-cinc::rubygems' do
         is_expected.to up_osl_dockercompose('rubygems-cinc-sh').with(
           directory: '/opt/rubygems.cinc.sh',
           config_files: %w(compose.yml)
+        )
+      end
+
+      it do
+        is_expected.to accept_osl_firewall_port('cinc-rubygems').with(
+          service_name: 'http',
+          ports: %w(8080),
+          osl_only: true
         )
       end
     end

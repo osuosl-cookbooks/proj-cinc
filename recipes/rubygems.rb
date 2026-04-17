@@ -17,6 +17,7 @@
 # limitations under the License.
 
 include_recipe 'osl-docker'
+include_recipe 'osl-firewall'
 include_recipe 'osl-git'
 
 rubygems_secrets = data_bag_item('proj-cinc', 'rubygems')
@@ -54,4 +55,10 @@ end
 osl_dockercompose 'rubygems-cinc-sh' do
   directory rubygems_dir
   config_files %w(compose.yml)
+end
+
+osl_firewall_port 'cinc-rubygems' do
+  service_name 'http'
+  ports %w(8080)
+  osl_only true
 end
