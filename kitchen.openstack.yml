@@ -19,15 +19,9 @@ transport:
   ssh_key: <%= ENV['OS_PRIVATE_SSH_KEY'] %>
 
 platforms:
-  - name: almalinux-8
+  - name: almalinux-10
     driver_plugin: openstack
     driver_config:
-      image_ref: "AlmaLinux 8"
-    transport:
-      username: almalinux
-  - name: almalinux-9
-    driver_plugin: openstack
-    driver_config:
-      image_ref: "AlmaLinux 9"
+      image_ref: "AlmaLinux 10"
     transport:
       username: almalinux

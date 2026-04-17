@@ -6,15 +6,38 @@ Wrapper cookbook to manage various services that support the Cinc Project.
 
 ### Platforms
 
-- AlmaLinux 8+
+- AlmaLinux 10
 
 ### Cookbooks
 
-## Attributes
-
-## Resources
+- `osl-docker`
+- `osl-git`
 
 ## Recipes
+
+### default
+
+Empty default recipe.
+
+### rubygems
+
+Deploys [rubygems.cinc.sh](https://rubygems.cinc.sh) via Docker Compose.
+
+- Checks out the source from https://gitlab.com/cinc-project/rubygems.cinc.sh.git to `/opt/rubygems.cinc.sh`
+- Creates a data directory at `/data/rubygems.cinc.sh`
+- Renders a `.env` file with secrets from the `proj-cinc/rubygems` data bag
+- Pulls the `cincproject/rubygems-cinc-sh` Docker image
+- Runs two services via `osl_dockercompose`: `geminabox` and `nginx`
+
+#### Data Bag
+
+The `proj-cinc/rubygems` data bag item must contain:
+
+| Key              | Description                          |
+| ---------------- | ------------------------------------ |
+| `api_key`        | API key for the Geminabox instance   |
+| `admin_user`     | Admin username for basic auth        |
+| `admin_password` | Admin password for basic auth        |
 
 ## Contributing
 

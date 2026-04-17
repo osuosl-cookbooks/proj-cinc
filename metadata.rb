@@ -8,5 +8,8 @@ source_url        'https://github.com/osuosl-cookbooks/proj-cinc'
 chef_version      '>= 18.0'
 version           '0.1.0'
 
-supports          'almalinux', '~> 8.0'
-supports          'almalinux', '~> 9.0'
+depends           'osl-docker'
+depends           'osl-firewall'
+depends           'osl-git'
+
+supports          'almalinux', '~> 10.0'

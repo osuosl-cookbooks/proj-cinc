@@ -3,7 +3,7 @@ driver:
   name: dokken
   privileged: true  # because Docker and SystemD/Upstart
   chef_image: cincproject/cinc
-  chef_version: <%= ENV['CHEF_VERSION'] || '18' %>
+  chef_version: <%= ENV['CHEF_VERSION'] || '19' %>
   pull_chef_image: false
   pull_platform_image: false
   ipv6: true
@@ -18,12 +18,7 @@ provisioner:
   chef_binary: /opt/cinc/bin/cinc-client
 
 platforms:
-  - name: almalinux-8
+  - name: almalinux-10
     driver:
-      image: dokken/almalinux-8
-      pid_one_command: /usr/lib/systemd/systemd
-
-  - name: almalinux-9
-    driver:
-      image: dokken/almalinux-9
+      image: dokken/almalinux-10
       pid_one_command: /usr/lib/systemd/systemd
