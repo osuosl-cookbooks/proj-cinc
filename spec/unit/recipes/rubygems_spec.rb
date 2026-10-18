@@ -21,7 +21,6 @@ describe 'proj-cinc::rubygems' do
       end
 
       it { is_expected.to include_recipe('osl-docker') }
-      it { is_expected.to include_recipe('osl-firewall') }
       it { is_expected.to include_recipe('osl-git') }
 
       it do

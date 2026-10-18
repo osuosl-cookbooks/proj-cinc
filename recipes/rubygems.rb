@@ -17,7 +17,6 @@
 # limitations under the License.
 
 include_recipe 'osl-docker'
-include_recipe 'osl-firewall'
 include_recipe 'osl-git'
 
 rubygems_secrets = data_bag_item('proj-cinc', 'rubygems')
