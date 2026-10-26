@@ -52,7 +52,11 @@ Deploys [omnitruck.cinc.sh](https://omnitruck.cinc.sh) via Docker Compose.
 - Adds an OSL-only `osl_firewall_port` rule for `8081`; Docker-published ports bypass it through `DOCKER-USER`, so the
   port is reachable directly, as rubygems' `8080` is
 
-No data bag is needed. `/_status` returns 404 until the poller's first run has filled the cache.
+The `omnitruck` and `poller` services run `cincproject/omnitruck-cinc-sh:latest` and `valkey` runs
+`valkey/valkey:8-alpine`; the checkout only supplies `compose.yml`. A merge to omnitruck `main` reaches the host on the
+first converge after its CI publishes the `latest` image.
+
+No data bag is needed. `/_status` returns 404 until the poller writes `stable/cinc`.
 
 ## Contributing
 

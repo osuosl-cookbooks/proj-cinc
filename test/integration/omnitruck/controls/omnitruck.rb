@@ -18,7 +18,11 @@ control 'omnitruck' do
     its('status') { should eq 204 }
   end
 
-  # Both read valkey, so they return 404 until the poller's first pass finishes
+  # The poller writes stable/cinc some seconds after it starts; until then both 404
+  describe command('timeout 300 sh -c "until curl -sf -o /dev/null http://127.0.0.1:8081/_status; do sleep 5; done"') do
+    its('exit_status') { should eq 0 }
+  end
+
   describe http('http://127.0.0.1:8081/_status') do
     its('status') { should eq 200 }
     its('body') { should match(/"timestamp"/) }
