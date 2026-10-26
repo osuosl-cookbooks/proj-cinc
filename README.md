@@ -11,6 +11,7 @@ Wrapper cookbook to manage various services that support the Cinc Project.
 ### Cookbooks
 
 - `osl-docker`
+- `osl-firewall`
 - `osl-git`
 
 ## Recipes
@@ -38,6 +39,24 @@ The `proj-cinc/rubygems` data bag item must contain:
 | `api_key`        | API key for the Geminabox instance   |
 | `admin_user`     | Admin username for basic auth        |
 | `admin_password` | Admin password for basic auth        |
+
+### omnitruck
+
+Deploys [omnitruck.cinc.sh](https://omnitruck.cinc.sh) via Docker Compose.
+
+- Checks out the source from https://gitlab.com/cinc-project/distribution/omnitruck.git to `/opt/omnitruck`
+- Renders a `.env` file setting the host port to `8081` (rubygems uses `8080`)
+- Pulls the `cincproject/omnitruck-cinc-sh` Docker image
+- Runs the upstream `compose.yml` via `osl_dockercompose`: `valkey`, `omnitruck` and `poller`, which refreshes the
+  package cache in Valkey every hour
+- Adds an OSL-only `osl_firewall_port` rule for `8081`; Docker-published ports bypass it through `DOCKER-USER`, so the
+  port is reachable directly, as rubygems' `8080` is
+
+The `omnitruck` and `poller` services run `cincproject/omnitruck-cinc-sh:latest` and `valkey` runs
+`valkey/valkey:8-alpine`; the checkout only supplies `compose.yml`. A merge to omnitruck `main` reaches the host on the
+first converge after its CI publishes the `latest` image.
+
+No data bag is needed. `/_status` returns 404 until the poller writes `stable/cinc`.
 
 ## Contributing
 

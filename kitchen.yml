@@ -29,3 +29,9 @@ suites:
     verifier:
       controls:
         - rubygems
+  - name: omnitruck
+    run_list:
+      - recipe[proj-cinc::omnitruck]
+    verifier:
+      controls:
+        - omnitruck
