@@ -14,6 +14,11 @@ control 'omnitruck' do
     end
   end
 
+  # The recipe pulls this tag; upstream's compose.yml must still run it
+  describe docker_container('omnitruck-valkey-1') do
+    its('image') { should eq 'valkey/valkey:8-alpine' }
+  end
+
   describe http('http://127.0.0.1:8081/_healthz') do
     its('status') { should eq 204 }
   end
