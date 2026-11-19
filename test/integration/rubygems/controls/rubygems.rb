@@ -38,6 +38,11 @@ control 'rubygems' do
     end
   end
 
+  # The recipe pulls this tag; upstream's compose.yml must still run it
+  describe docker_container('rubygems-cinc-sh-nginx-1') do
+    its('image') { should eq 'nginx:1-alpine' }
+  end
+
   describe http('http://127.0.0.1:8080') do
     its('status') { should eq 200 }
     its('body') { should match(/Cinc RubyGems/) }

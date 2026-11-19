@@ -71,6 +71,17 @@ describe 'proj-cinc::rubygems' do
       end
 
       it do
+        is_expected.to pull_docker_image('nginx').with(
+          tag: '1-alpine'
+        )
+      end
+
+      it do
+        expect(chef_run.docker_image('nginx')).to \
+          notify('osl_dockercompose[rubygems-cinc-sh]').to(:rebuild)
+      end
+
+      it do
         is_expected.to up_osl_dockercompose('rubygems-cinc-sh').with(
           directory: '/opt/rubygems.cinc.sh',
           config_files: %w(compose.yml)

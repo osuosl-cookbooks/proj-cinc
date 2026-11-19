@@ -52,6 +52,12 @@ docker_image 'cincproject/rubygems-cinc-sh' do
   notifies :rebuild, 'osl_dockercompose[rubygems-cinc-sh]'
 end
 
+# Keep this tag in step with the nginx image in the upstream compose.yml
+docker_image 'nginx' do
+  tag '1-alpine'
+  notifies :rebuild, 'osl_dockercompose[rubygems-cinc-sh]'
+end
+
 osl_dockercompose 'rubygems-cinc-sh' do
   directory rubygems_dir
   config_files %w(compose.yml)

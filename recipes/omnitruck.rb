@@ -39,6 +39,12 @@ docker_image 'cincproject/omnitruck-cinc-sh' do
   notifies :rebuild, 'osl_dockercompose[omnitruck]'
 end
 
+# Keep this tag in step with the valkey image in the upstream compose.yml
+docker_image 'valkey/valkey' do
+  tag '8-alpine'
+  notifies :rebuild, 'osl_dockercompose[omnitruck]'
+end
+
 # Only compose.yml: the upstream compose.override.yml builds from source
 osl_dockercompose 'omnitruck' do
   directory omnitruck_dir

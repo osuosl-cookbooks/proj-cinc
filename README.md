@@ -27,8 +27,12 @@ Deploys [rubygems.cinc.sh](https://rubygems.cinc.sh) via Docker Compose.
 - Checks out the source from https://gitlab.com/cinc-project/rubygems.cinc.sh.git to `/opt/rubygems.cinc.sh`
 - Creates a data directory at `/data/rubygems.cinc.sh`
 - Renders a `.env` file with secrets from the `proj-cinc/rubygems` data bag
-- Pulls the `cincproject/rubygems-cinc-sh` Docker image
+- Pulls the `cincproject/rubygems-cinc-sh` and `nginx:1-alpine` Docker images on every converge; a new build of
+  either rebuilds the stack, so the containers follow upstream security rebuilds
 - Runs two services via `osl_dockercompose`: `geminabox` and `nginx`
+
+The `nginx:1-alpine` tag mirrors the upstream `compose.yml`; if upstream changes it, change the recipe to match
+(the rubygems InSpec control fails when they differ).
 
 #### Data Bag
 
@@ -46,7 +50,8 @@ Deploys [omnitruck.cinc.sh](https://omnitruck.cinc.sh) via Docker Compose.
 
 - Checks out the source from https://gitlab.com/cinc-project/distribution/omnitruck.git to `/opt/omnitruck`
 - Renders a `.env` file setting the host port to `8081` (rubygems uses `8080`)
-- Pulls the `cincproject/omnitruck-cinc-sh` Docker image
+- Pulls the `cincproject/omnitruck-cinc-sh` and `valkey/valkey:8-alpine` Docker images on every converge; a new
+  build of either rebuilds the stack (the `valkey/valkey` tag mirrors the upstream `compose.yml`)
 - Runs the upstream `compose.yml` via `osl_dockercompose`: `valkey`, `omnitruck` and `poller`, which refreshes the
   package cache in Valkey every hour
 - Adds an OSL-only `osl_firewall_port` rule for `8081`; Docker-published ports bypass it through `DOCKER-USER`, so the
