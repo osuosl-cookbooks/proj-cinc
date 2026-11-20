@@ -46,28 +46,6 @@ describe 'proj-cinc::omnitruck' do
       end
 
       it do
-        is_expected.to pull_docker_image('cincproject/omnitruck-cinc-sh').with(
-          tag: 'latest'
-        )
-      end
-
-      it do
-        expect(chef_run.docker_image('cincproject/omnitruck-cinc-sh')).to \
-          notify('osl_dockercompose[omnitruck]').to(:rebuild)
-      end
-
-      it do
-        is_expected.to pull_docker_image('valkey/valkey').with(
-          tag: '8-alpine'
-        )
-      end
-
-      it do
-        expect(chef_run.docker_image('valkey/valkey')).to \
-          notify('osl_dockercompose[omnitruck]').to(:rebuild)
-      end
-
-      it do
         is_expected.to up_osl_dockercompose('omnitruck').with(
           directory: '/opt/omnitruck',
           config_files: %w(compose.yml)

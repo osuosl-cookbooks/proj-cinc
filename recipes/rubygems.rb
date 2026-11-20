@@ -47,17 +47,8 @@ template "#{rubygems_dir}/.env" do
   notifies :rebuild, 'osl_dockercompose[rubygems-cinc-sh]'
 end
 
-docker_image 'cincproject/rubygems-cinc-sh' do
-  tag 'latest'
-  notifies :rebuild, 'osl_dockercompose[rubygems-cinc-sh]'
-end
-
-# Keep this tag in step with the nginx image in the upstream compose.yml
-docker_image 'nginx' do
-  tag '1-alpine'
-  notifies :rebuild, 'osl_dockercompose[rubygems-cinc-sh]'
-end
-
+# osl-docker's pull_images (on by default) keeps every image in compose.yml current, the
+# cincproject one included
 osl_dockercompose 'rubygems-cinc-sh' do
   directory rubygems_dir
   config_files %w(compose.yml)

@@ -14,9 +14,13 @@ control 'omnitruck' do
     end
   end
 
-  # The recipe pulls this tag; upstream's compose.yml must still run it
-  describe docker_container('omnitruck-valkey-1') do
-    its('image') { should eq 'valkey/valkey:8-alpine' }
+  # osl-docker's pull_images keeps every running container on the image its tag points at now
+  describe command(
+    "set -o pipefail; docker compose -p omnitruck -f /opt/omnitruck/compose.yml ps --format '{{.Service}} {{.ID}} {{.Image}}' | while read s id img; do " \
+    "[ \"$(docker inspect -f '{{.Image}}' $id)\" = \"$(docker image inspect -f '{{.Id}}' $img)\" ] || echo \"stale $s\"; done"
+  ) do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should eq '' }
   end
 
   describe http('http://127.0.0.1:8081/_healthz') do
