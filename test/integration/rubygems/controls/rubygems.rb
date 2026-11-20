@@ -38,9 +38,13 @@ control 'rubygems' do
     end
   end
 
-  # The recipe pulls this tag; upstream's compose.yml must still run it
-  describe docker_container('rubygems-cinc-sh-nginx-1') do
-    its('image') { should eq 'nginx:1-alpine' }
+  # osl-docker's pull_images keeps every running container on the image its tag points at now
+  describe command(
+    "set -o pipefail; docker compose -p rubygems-cinc-sh -f /opt/rubygems.cinc.sh/compose.yml ps --format '{{.Service}} {{.ID}} {{.Image}}' | while read s id img; do " \
+    "[ \"$(docker inspect -f '{{.Image}}' $id)\" = \"$(docker image inspect -f '{{.Id}}' $img)\" ] || echo \"stale $s\"; done"
+  ) do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should eq '' }
   end
 
   describe http('http://127.0.0.1:8080') do
