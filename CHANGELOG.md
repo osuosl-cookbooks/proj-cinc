@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the proj-cinc cookbook.
 
+1.1.2 (2026-11-20)
+------------------
+- Rely on osl-docker's image pulls instead of docker_image
+
 1.1.1 (2026-11-19)
 ------------------
 - Pull the nginx and valkey images the stacks run
